@@ -20,14 +20,11 @@ bare-metal = { version = "0.2.0", features = ["const-fn"] }
 volatile-register = "0.2.0"
 bitfield = "0.13.2"
 embedded-hal = "0.2.4"
-klee-sys = { version = "0.2.0", git ="https://gitlab.henriktjader.com/pln/klee-sys.git" }
 
 [features]
 cm7-r0p1 = []
 inline-asm = []
 linker-plugin-lto = []
-klee-analysis = ["klee-sys/klee-analysis"]
-klee-replay = ["klee-sys/klee-replay"]
 
 [workspace]
 members = ["xtask", "cortex-m-semihosting", "panic-semihosting", "panic-itm"]
