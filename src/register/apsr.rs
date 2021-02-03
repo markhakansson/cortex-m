@@ -47,8 +47,17 @@ impl Apsr {
 /// Reads the CPU register
 ///
 /// **NOTE** This function is available if `cortex-m` is built with the `"inline-asm"` feature.
+#[cfg(not(feature = "klee-analysis"))]
 #[inline]
 pub fn read() -> Apsr {
     let bits: u32 = call_asm!(__apsr_r() -> u32);
     Apsr { bits }
+}
+
+#[cfg(feature = "klee-analysis")]
+#[inline]
+pub fn read() -> Apsr {
+    let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
+    klee_make_symbolic!(&mut r, "APSR_R");
+    Apsr { bits: r }
 }
