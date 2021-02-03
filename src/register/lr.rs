@@ -8,6 +8,13 @@
 pub fn read() -> u32 {
     call_asm!(__lr_r() -> u32)
 }
+#[cfg(feature = "klee-analysis")]
+#[inline]
+pub fn read() -> u32 {
+    let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
+    klee_make_symbolic!(&mut r, "LR_R");
+    r
+}
 
 /// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]

@@ -297,6 +297,13 @@ pub fn read() -> Fpscr {
     let r: u32 = call_asm!(__fpscr_r() -> u32);
     Fpscr::from_bits(r)
 }
+#[cfg(feature = "klee-analysis")]
+#[inline]
+pub fn read() -> Fpscr {
+    let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
+    klee_make_symbolic!(&mut r, "FPSCR_R");
+    Fpscr::from_bits(r)
+}
 
 /// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
