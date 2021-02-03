@@ -6,6 +6,7 @@
 pub fn read() -> u32 {
     call_asm!(__msp_r() -> u32)
 }
+/// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
 pub fn read() -> u32 {
@@ -39,16 +40,8 @@ pub unsafe fn write(bits: u32) {
 pub fn read_ns() -> u32 {
     call_asm!(__msp_ns_r() -> u32)
 }
-/// For feature "klee-analysis"
-#[cfg(feature = "klee-analysis")]
-#[cfg(armv8m)]
-#[inline]
-pub fn read_ns() -> u32 {
-    let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "MSP_NS_R");
-    r
-}
 
+/// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[cfg(armv8m)]
 #[inline]

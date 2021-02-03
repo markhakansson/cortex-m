@@ -7,15 +7,8 @@
 pub fn read() -> u8 {
     call_asm!(__basepri_r() -> u8)
 }
-/// For feature "klee-analysis"
-#[cfg(feature = "klee-analysis")]
-#[inline]
-pub fn read() -> u8 {
-    let mut r: u8 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "BASEPRI_R");
-    r
-}
 
+/// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
 pub fn read() -> u8 {

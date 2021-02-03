@@ -297,6 +297,7 @@ pub fn read() -> Fpscr {
     let r: u32 = call_asm!(__fpscr_r() -> u32);
     Fpscr::from_bits(r)
 }
+/// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
 pub fn read() -> Fpscr {
