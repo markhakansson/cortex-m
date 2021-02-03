@@ -58,6 +58,7 @@ impl DCB {
             value & 0x1 == 1
         }
     }
+    /// For feature "klee-analysis"
     #[cfg(feature = "klee-analysis")]
     #[inline]
     pub fn is_debugger_attached() -> bool {

@@ -53,7 +53,7 @@ pub fn read() -> Apsr {
     let bits: u32 = call_asm!(__apsr_r() -> u32);
     Apsr { bits }
 }
-
+/// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
 pub fn read() -> Apsr {
