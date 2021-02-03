@@ -16,6 +16,14 @@ pub fn read() -> u8 {
     r
 }
 
+#[cfg(feature = "klee-analysis")]
+#[inline]
+pub fn read() -> u8 {
+    let mut r: u8 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
+    klee_make_symbolic!(&mut r, "BASEPRI_R");
+    r
+}
+
 /// Writes to the CPU register
 ///
 /// **IMPORTANT** If you are using a Cortex-M7 device with revision r0p1 you MUST enable the

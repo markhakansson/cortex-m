@@ -165,6 +165,7 @@ pub fn read() -> Control {
     klee_make_symbolic!(&mut r, "CONTROL_R");
     Control { bits: r }
 }
+
 /// Writes to the CPU register.
 #[inline]
 pub unsafe fn write(control: Control) {

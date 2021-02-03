@@ -20,6 +20,7 @@ bare-metal = { version = "0.2.0", features = ["const-fn"] }
 volatile-register = "0.2.0"
 bitfield = "0.13.2"
 embedded-hal = "0.2.4"
+klee-sys = { version = "0.2.0", git ="https://gitlab.henriktjader.com/pln/klee-sys.git" }
 
 [dependencies.klee-sys]
 version = "0.2.0"

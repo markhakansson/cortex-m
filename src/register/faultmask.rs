@@ -34,6 +34,7 @@ pub fn read() -> Faultmask {
         Faultmask::Active
     }
 }
+
 /// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
