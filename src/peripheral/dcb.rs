@@ -49,11 +49,21 @@ impl DCB {
     /// on Cortex-M0 devices. Per the ARM v6-M Architecture Reference Manual, "Access to the DHCSR
     /// from software running on the processor is IMPLEMENTATION DEFINED". Indeed, from the
     /// [Cortex-M0+ r0p1 Technical Reference Manual](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0484c/BABJHEIG.html), "Note Software cannot access the debug registers."
+    #[cfg(not(feature = "klee-analysis"))]
     #[inline]
     pub fn is_debugger_attached() -> bool {
         unsafe {
             // do an 8-bit read of the 32-bit DHCSR register, and get the LSB
             let value = ptr::read_volatile(Self::ptr() as *const u8);
+            value & 0x1 == 1
+        }
+    }
+    #[cfg(feature = "klee-analysis")]
+    #[inline]
+    pub fn is_debugger_attached() -> bool {
+        unsafe {
+            let mut value: u8 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
+            klee_make_symbolic!(&mut value, "DHCSR_7_0");
             value & 0x1 == 1
         }
     }
