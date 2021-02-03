@@ -150,20 +150,12 @@ impl Fpca {
 }
 
 /// Reads the CPU register
-#[cfg(not(feature = "klee-analysis"))]
 #[inline]
 pub fn read() -> Control {
     let bits: u32 = call_asm!(__control_r() -> u32);
     Control { bits }
 }
 
-#[cfg(feature = "klee-analysis")]
-#[inline]
-pub fn read() -> Control {
-    let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "CONTROL_R");
-    Control { bits: r }
-}
 /// Writes to the CPU register.
 #[inline]
 pub unsafe fn write(control: Control) {

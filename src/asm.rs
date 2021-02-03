@@ -81,6 +81,7 @@ pub fn isb() {
 pub fn dsb() {
     call_asm!(__dsb())
 }
+
 /// Data Memory Barrier
 ///
 /// Ensures that all explicit memory accesses that appear in program order before the `DMB`

@@ -24,22 +24,9 @@ impl Faultmask {
 }
 
 /// Reads the CPU register
-#[cfg(not(feature = "klee-analysis"))]
 #[inline]
 pub fn read() -> Faultmask {
     let r: u32 = call_asm!(__faultmask_r() -> u32);
-    if r & (1 << 0) == (1 << 0) {
-        Faultmask::Inactive
-    } else {
-        Faultmask::Active
-    }
-}
-
-#[cfg(feature = "klee-analysis")]
-#[inline]
-pub fn read() -> Faultmask {
-    let mut r: u8 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "FAULTMASK_R");
     if r & (1 << 0) == (1 << 0) {
         Faultmask::Inactive
     } else {
