@@ -3,18 +3,11 @@
 /// Reads the CPU register
 ///
 /// **NOTE** This function is available if `cortex-m` is built with the `"inline-asm"` feature.
-#[cfg(not(feature = "klee-analysis"))]
 #[inline]
 pub fn read() -> u32 {
     call_asm!(__pc_r() -> u32)
 }
-#[cfg(feature = "klee-analysis")]
-#[inline]
-pub fn read() -> u32 {
-    let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "PC_R");
-    r
-}
+
 /// Writes `bits` to the CPU register
 ///
 /// **NOTE** This function is available if `cortex-m` is built with the `"inline-asm"` feature.
