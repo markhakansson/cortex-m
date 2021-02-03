@@ -34,6 +34,7 @@ pub fn read() -> Primask {
         Primask::Active
     }
 }
+/// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
 pub fn read() -> Primask {
