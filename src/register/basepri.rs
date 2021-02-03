@@ -7,7 +7,7 @@
 pub fn read() -> u8 {
     call_asm!(__basepri_r() -> u8)
 }
-
+/// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
 pub fn read() -> u8 {

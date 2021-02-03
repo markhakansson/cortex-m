@@ -157,6 +157,7 @@ pub fn read() -> Control {
     Control { bits }
 }
 
+/// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
 pub fn read() -> Control {

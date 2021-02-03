@@ -6,6 +6,7 @@
 pub fn read() -> u32 {
     call_asm!(__psplim_r() -> u32)
 }
+/// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
 pub fn read() -> u32 {
