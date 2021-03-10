@@ -9,8 +9,8 @@
 use core::sync::atomic::{compiler_fence, Ordering};
 
 #[inline(always)]
-pub unsafe fn __bkpt() {
-    asm!("bkpt");
+pub unsafe fn __bkpt(num: u8) {
+    asm!("bkpt {}", num);
 }
 
 #[inline(always)]
