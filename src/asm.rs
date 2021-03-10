@@ -22,8 +22,8 @@ pub fn bkpt() {
 /// **NOTE** calling `bkpt` when the processor is not connected to a debugger will cause an
 /// exception.
 #[inline(always)]
-pub fn bkpt_num(num: u8) {
-    call_asm!(__bkpt(num: u8));
+pub fn bkpt_imm(imm: u8) {
+    call_asm!(__bkpt(imm: u8));
 }
 
 /// Blocks the program for *at least* `cycles` CPU cycles.
