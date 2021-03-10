@@ -12,7 +12,18 @@ pub(crate) mod inline;
 /// exception.
 #[inline(always)]
 pub fn bkpt() {
-    call_asm!(__bkpt());
+    let num = 0;
+    call_asm!(__bkpt(num: u8));
+}
+
+/// Puts the processor in Debug state. Debuggers can pick this up as a "breakpoint" with
+/// the given immediate value.
+///
+/// **NOTE** calling `bkpt` when the processor is not connected to a debugger will cause an
+/// exception.
+#[inline(always)]
+pub fn bkpt_num(num: u8) {
+    call_asm!(__bkpt(num: u8));
 }
 
 /// Blocks the program for *at least* `cycles` CPU cycles.
