@@ -1,5 +1,8 @@
 //! Debug Control Block
 
+#[cfg(feature = "klee-analysis")]
+use klee_rs::klee_make_symbolic;
+
 use volatile_register::{RW, WO};
 
 use crate::peripheral::DCB;
@@ -64,8 +67,8 @@ impl DCB {
     #[inline]
     pub fn is_debugger_attached() -> bool {
         unsafe {
-            let mut value: u8 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-            klee_make_symbolic!(&mut value, "DHCSR_7_0");
+            let mut value: u8 = core::mem::MaybeUninit::uninit().assume_init();
+            klee_make_symbolic(&mut value, "DHCSR_7_0");
             value & 0x1 == 1
         }
     }

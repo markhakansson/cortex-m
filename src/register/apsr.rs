@@ -1,5 +1,8 @@
 //! Application Program Status Register
 
+#[cfg(feature = "klee-analysis")]
+use klee_rs::klee_make_symbolic;
+
 /// Application Program Status Register
 #[derive(Clone, Copy, Debug)]
 pub struct Apsr {
@@ -59,6 +62,6 @@ pub fn read() -> Apsr {
 #[inline]
 pub fn read() -> Apsr {
     let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "APSR_R");
+    klee_make_symbolic(&mut r, "APSR_R");
     Apsr { bits: r }
 }

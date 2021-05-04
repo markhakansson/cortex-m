@@ -1,5 +1,8 @@
 //! Main Stack Pointer Limit Register
 
+#[cfg(feature = "klee-analysis")]
+use klee_rs::klee_make_symbolic;
+
 /// Reads the CPU register
 #[cfg(not(feature = "klee-analysis"))]
 #[inline]
@@ -12,7 +15,7 @@ pub fn read() -> u32 {
 #[inline]
 pub fn read() -> u32 {
     let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "MSPLIM_R");
+    klee_make_symbolic(&mut r, "MSPLIM_R");
     r
 }
 /// Writes `bits` to the CPU register

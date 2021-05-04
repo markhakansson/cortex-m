@@ -6,6 +6,9 @@
 #[path = "../asm/inline.rs"]
 pub(crate) mod inline;
 
+#[cfg(feature = "klee-analysis")]
+use klee_rs::klee_make_symbolic;
+
 /// Puts the processor in Debug state. Debuggers can pick this up as a "breakpoint".
 ///
 /// **NOTE** calling `bkpt` when the processor is not connected to a debugger will cause an
@@ -194,9 +197,9 @@ pub unsafe fn semihosting_syscall(nr: u32, arg: u32) -> u32 {
 /// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
-pub unsafe fn semihosting_syscall(nr: u32, arg: u32) -> u32 {
-    let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "BASEPRI_R");
+pub unsafe fn semihosting_syscall(_nr: u32, _arg: u32) -> u32 {
+    let mut r: u32 = core::mem::MaybeUninit::uninit().assume_init();
+    klee_make_symbolic(&mut r, "BASEPRI_R");
     r
 }
 
@@ -222,7 +225,7 @@ pub unsafe fn bootstrap(msp: *const u32, rv: *const u32) -> ! {
 /// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
 #[inline]
-pub unsafe fn bootstrap(msp: *const u32, rv: *const u32) -> ! {
+pub unsafe fn bootstrap(_msp: *const u32, _rv: *const u32) -> ! {
     loop {}
 }
 
@@ -248,6 +251,6 @@ pub unsafe fn bootload(vector_table: *const u32) -> ! {
 /// Bootload.
 /// For feature "klee-analysis"
 #[cfg(feature = "klee-analysis")]
-pub unsafe fn bootload(vector_table: *const u32) -> ! {
+pub unsafe fn bootload(_vector_table: *const u32) -> ! {
     loop {}
 }

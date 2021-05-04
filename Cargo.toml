@@ -21,22 +21,16 @@ volatile-register = "0.2.0"
 bitfield = "0.13.2"
 embedded-hal = "0.2.4"
 
-[dependencies.klee-sys]
-version = "0.2.0"
-git ="https://gitlab.henriktjader.com/pln/klee-sys.git"
-optional = true
-
-[dependencies.klee-sys]
-version = "0.2.0"
-git ="https://gitlab.henriktjader.com/pln/klee-sys.git"
+[dependencies.klee-rs]
+git = "https://github.com/markhakansson/klee-rs.git"
+version = "0.1"
 optional = true
 
 [features]
 cm7-r0p1 = []
 inline-asm = []
 linker-plugin-lto = []
-klee-analysis = ["klee-sys/klee-analysis"]
-klee-replay = ["klee-sys/klee-replay"]
+klee-analysis = ["klee-rs"]
 
 [workspace]
 members = ["xtask", "cortex-m-semihosting", "panic-semihosting", "panic-itm"]

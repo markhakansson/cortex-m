@@ -1,5 +1,8 @@
 //! Control register
 
+#[cfg(feature = "klee-analysis")]
+use klee_rs::klee_make_symbolic;
+
 /// Control register
 #[derive(Clone, Copy, Debug)]
 pub struct Control {
@@ -162,7 +165,7 @@ pub fn read() -> Control {
 #[inline]
 pub fn read() -> Control {
     let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "CONTROL_R");
+    klee_make_symbolic(&mut r, "CONTROL_R");
     Control { bits: r }
 }
 

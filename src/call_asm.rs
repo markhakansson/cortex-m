@@ -10,9 +10,11 @@ macro_rules! call_asm {
                 #[cfg(feature = "klee-analysis")]
                 () => {},
 
+                #[cfg(not(feature = "klee-analysis"))]
                 #[cfg(feature = "inline-asm")]
                 () => crate::asm::inline::$func($($args),*),
 
+                #[cfg(not(feature = "klee-analysis"))]
                 #[cfg(not(feature = "inline-asm"))]
                 () => {
                     extern "C" {

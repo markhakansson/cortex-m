@@ -1,5 +1,8 @@
 //! Floating-point Status Control Register
 
+#[cfg(feature = "klee-analysis")]
+use klee_rs::klee_make_symbolic;
+
 /// Floating-point Status Control Register
 #[derive(Clone, Copy, Debug)]
 pub struct Fpscr {
@@ -302,16 +305,7 @@ pub fn read() -> Fpscr {
 #[inline]
 pub fn read() -> Fpscr {
     let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "FPSCR_R");
-    Fpscr::from_bits(r)
-}
-
-/// For feature "klee-analysis"
-#[cfg(feature = "klee-analysis")]
-#[inline]
-pub fn read() -> Fpscr {
-    let mut r: u32 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "FPSCR_R");
+    klee_make_symbolic(&mut r, "FPSCR_R");
     Fpscr::from_bits(r)
 }
 

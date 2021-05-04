@@ -1,5 +1,7 @@
 //! Fault Mask Register
 
+#[cfg(feature = "klee-analysis")]
+use klee_rs::klee_make_symbolic;
 /// All exceptions are ...
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Faultmask {
@@ -40,7 +42,7 @@ pub fn read() -> Faultmask {
 #[inline]
 pub fn read() -> Faultmask {
     let mut r: u8 = unsafe { core::mem::MaybeUninit::uninit().assume_init() };
-    klee_make_symbolic!(&mut r, "FAULTMASK_R");
+    klee_make_symbolic(&mut r, "FAULTMASK_R");
     if r & (1 << 0) == (1 << 0) {
         Faultmask::Inactive
     } else {
